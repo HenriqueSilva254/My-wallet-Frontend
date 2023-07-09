@@ -1,47 +1,71 @@
 import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
+import { useContext, useEffect, useState } from "react"
+import { UserContext } from "../contexts/userContext"
+import Bank from "../services/apiTransactions"
+import { useNavigate } from "react-router-dom"
 
+// henri254@gmail.com
 export default function HomePage() {
+  const { user } = useContext(UserContext)
+  const [transactions, setTransactions] = useState([])
+  const [value, setValue] = useState(0)
+  const navigate = useNavigate()
+  useEffect(() => {
+    Bank.getTransactions(user.token)
+      .then(res => {
+        setTransactions(res.data)
+        let soma = 0
+        res.data.forEach(e => {
+          
+          if(e.info === "entrance"){
+            
+            soma = soma + e.value 
+          }else{
+            soma = soma - e.value
+          }
+        })
+        const resultado = soma
+        setValue(resultado)
+      })
+      .catch(err => console.log(err.response.data))
+  } ,[])
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
+        <h1>Olá, {user.name}</h1>
         <BiExit />
       </Header>
 
       <TransactionsContainer>
-        <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
 
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+        <ul>
+          {transactions.map(t => (
+            <ListItemContainer>
+              <div>
+                <span>{t.time}</span>
+                <strong>{t.description}</strong>
+              </div>
+              <Value color={t.info === "entrance"? 'positivo' : 'negativo'}>{(t.value).toFixed(2)}</Value>
+            </ListItemContainer>
+          ))}
+
         </ul>
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={value >= 0? "positivo":"negativo"}>{Math.abs(value).toFixed(2)}</Value>
         </article>
       </TransactionsContainer>
 
 
       <ButtonsContainer>
-        <button>
+        <button onClick={() => {navigate('/nova-transacao/entrada')}}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button>
+        <button onClick={() => {navigate('/nova-transacao/saida')} }>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>

@@ -1,21 +1,57 @@
 import styled from "styled-components"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import MyWalletLogo from "../components/MyWalletLogo"
+import { useContext, useState } from "react"
+import Auth from "../services/apiAuth"
+import { UserContext } from "../contexts/userContext"
+
 
 export default function SignInPage() {
+  
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const navigate = useNavigate()
+  const {setUser} = useContext(UserContext)
+
+  // function para fazer login
+  function HeadLogin(e){
+  e.preventDefault()
+  const body = {email, password}
+  Auth.signIn(body)
+  .then(res => {
+    const {token, name} = res.data
+    setUser({token, name}) 
+    navigate("/home")
+  }
+  )
+  .catch(err => console.log(err.response.data))
+  }
+
+  // layout da page login
   return (
     <SingInContainer>
-      <form>
+      <form onSubmit={HeadLogin}>
         <MyWalletLogo />
         <input
         placeholder="E-mail" 
         type="email" 
+        required
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         />
-        <input placeholder="Senha" type="password" autocomplete="new-password" />
+        <input 
+        placeholder="Senha" 
+        type="password" 
+        autoComplete="new-password" 
+        required
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        />
+        
         <button>Entrar</button>
       </form>
 
-      <Link>
+      <Link to={"/cadastro"}>
         Primeira vez? Cadastre-se!
       </Link>
     </SingInContainer>
@@ -29,3 +65,4 @@ const SingInContainer = styled.section`
   justify-content: center;
   align-items: center;
 `
+ 

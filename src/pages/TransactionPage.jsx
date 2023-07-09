@@ -1,12 +1,41 @@
+import { useContext, useState } from "react"
 import styled from "styled-components"
+import { UserContext } from "../contexts/userContext"
+import { useNavigate, useParams } from "react-router-dom"
+import Bank from "../services/apiTransactions"
+
 
 export default function TransactionsPage() {
+  const [value, setValue] = useState()
+  const [description, setDescription] = useState()
+  const {user} = useContext(UserContext)
+  const navigate = useNavigate()
+  const {params} = useParams()
+  function newTransaction(e){
+    e.preventDefault()
+    const dados = {
+      value,
+      description,
+      params
+    }
+    Bank.postTransactions(user.token, dados)
+    .then(res => {
+      navigate('/home')
+    })
+    .catch(err => console.log(err.response.data))
+  }
   return (
     <TransactionsContainer>
       <h1>Nova TRANSAÇÃO</h1>
-      <form>
-        <input placeholder="Valor" type="text"/>
-        <input placeholder="Descrição" type="text" />
+      <form onSubmit={newTransaction}>
+        <input 
+        placeholder="Valor" 
+        type="text"
+        onChange={(e) => setValue(e.target.value)}/>
+        <input 
+        placeholder="Descrição" 
+        type="text"
+        onChange={(e) => setDescription(e.target.value)} />
         <button>Salvar TRANSAÇÃO</button>
       </form>
     </TransactionsContainer>
