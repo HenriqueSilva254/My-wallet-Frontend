@@ -22,7 +22,7 @@ export default function SignUpPage() {
   }
   )
   .catch(err => {
-    console.log(err)
+    alert(err.response.data)
     })
 
   }
@@ -32,6 +32,7 @@ export default function SignUpPage() {
       <form onSubmit={HeadSignUp}>
         <MyWalletLogo />
         <input 
+        data-test="name"
         placeholder="Nome" 
         type="text" 
         required
@@ -39,6 +40,7 @@ export default function SignUpPage() {
         onChange={(e) => setName(e.target.value)}
         />
         <input 
+        data-test="email"
         placeholder="E-mail" 
         type="email" 
         required
@@ -46,6 +48,7 @@ export default function SignUpPage() {
         onChange={(e) => setEmail(e.target.value)}
         />
         <input 
+        data-test="password"
         placeholder="Senha" 
         type="password" 
         autoComplete="new-password" 
@@ -54,6 +57,7 @@ export default function SignUpPage() {
         onChange={(e) => setPassword(e.target.value)}
         />
         <input 
+        data-test="conf-password"
         placeholder="Confirme a senha" 
         type="password" 
         autoComplete="new-password" 
@@ -61,7 +65,7 @@ export default function SignUpPage() {
         value={passwordConfirm}
         onChange={(e) => setPasswordConfirm(e.target.value)}
         />
-        <button>Cadastrar</button>
+        <button data-test="sign-up-submit">Cadastrar</button>
       </form>
 
       <Link to={"/"}>
