@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const URL_BASE = "http://localhost:5000"
+
 function createConfig(token){
     const config = {
         headers: {
@@ -11,7 +11,7 @@ function createConfig(token){
 }
 function getTransactions(token){
    
-    const promisse = axios.get(`${URL_BASE}/transactions`, createConfig(token))
+    const promisse = axios.get(`${import.meta.env.VITE_API_URL}/transactions`, createConfig(token))
     return promisse
 }
 function postTransactions(token, dados){
@@ -20,7 +20,7 @@ function postTransactions(token, dados){
         value: dados.value,
         description: dados.description
     }
-    const promisse = axios.post(`${URL_BASE}/nova-transacao/${dados.params}`, body, createConfig(token))
+    const promisse = axios.post(`${import.meta.env.VITE_API_URL}/nova-transacao/${dados.params}`, body, createConfig(token))
     return promisse
 }
 const Bank = {getTransactions, postTransactions}

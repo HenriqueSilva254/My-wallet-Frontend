@@ -64,7 +64,7 @@ export default function HomePage() {
                 <span>{t.time}</span>
                 <strong data-test="registry-name">{t.description}</strong>
               </div>
-              <Value color={t.info === "entrance"? 'positivo' : 'negativo'}>{Number(t.value).toFixed(2)}</Value>
+              <Value data-test="registry-amount" color={t.info === "entrance"? 'positivo' : 'negativo'}>{Number(t.value).toFixed(2)}</Value>
             </ListItemContainer>
           ))}
 
@@ -72,17 +72,17 @@ export default function HomePage() {
 
         <article>
           <strong>Saldo</strong>
-          <Value color={value >= 0? "positivo":"negativo"}>{Math.abs(Number(value)).toFixed(2)}</Value>
+          <Value data-test="total-amount" color={value >= 0? "positivo":"negativo"}>{Math.abs(Number(value)).toFixed(2)}</Value>
         </article>
       </TransactionsContainer>
 
 
       <ButtonsContainer>
-        <button onClick={() => {navigate('/nova-transacao/entrada')}}>
+        <button data-test="registry-income" onClick={() => {navigate('/nova-transacao/entrada')}}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button onClick={() => {navigate('/nova-transacao/saida')} }>
+        <button data-test="registry-expensive" onClick={() => {navigate('/nova-transacao/saida')} }>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>

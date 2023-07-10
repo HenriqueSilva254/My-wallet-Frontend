@@ -11,7 +11,7 @@ export default function TransactionsPage() {
   const {user} = useContext(UserContext)
   const navigate = useNavigate()
   const {tipo} = useParams()
-  console.log(tipo)
+
   function newTransaction(e){
     e.preventDefault()
     const dados = {
