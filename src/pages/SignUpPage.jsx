@@ -15,16 +15,18 @@ export default function SignUpPage() {
   function HeadSignUp(e){
   e.preventDefault()
   const body = {name, email, password}
-  Auth.signUp(body)
-  .then(res => {
-    navigate("/")
-    console.log(res)
+  if(password !== passwordConfirm) alert("senhas não conferem")
+  else{
+    Auth.signUp(body)
+    .then(res => {
+      navigate("/")
+      console.log(res)
+    }
+    )
+    .catch(err => {
+      if(err.response.status === 409) alert("email já cadastrado, tente outro")
+      })
   }
-  )
-  .catch(err => {
-    alert(err.response.data)
-    })
-
   }
 
   return (

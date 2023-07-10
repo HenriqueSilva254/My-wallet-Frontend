@@ -25,7 +25,10 @@ export default function SignInPage() {
     navigate("/home")
   }
   )
-  .catch(err => console.log(err.response.data))
+  .catch(err => {
+    console.log(err.response.data)
+    alert("email ou senha invalidos")
+  })
   }
 
   // layout da page login

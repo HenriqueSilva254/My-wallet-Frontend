@@ -12,6 +12,12 @@ export default function TransactionsPage() {
   const navigate = useNavigate()
   const {tipo} = useParams()
 
+  useEffect(() => {
+    if(user === null) {
+        navigate("/")
+    }
+  }, [])
+
   function newTransaction(e){
     e.preventDefault()
     const dados = {
