@@ -20,7 +20,8 @@ export default function SignInPage() {
   Auth.signIn(body)
   .then(res => {
     const {token, name} = res.data
-    setUser({token, name}) 
+    localStorage.setItem("user",JSON.stringify({token, name}))
+    setUser(JSON.parse(localStorage.getItem("user")))
     navigate("/home")
   }
   )

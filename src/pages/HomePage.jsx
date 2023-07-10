@@ -8,12 +8,23 @@ import { useNavigate } from "react-router-dom"
 
 // henri254@gmail.com
 export default function HomePage() {
-  const { user } = useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
   const [transactions, setTransactions] = useState([])
   const [value, setValue] = useState(0)
   const navigate = useNavigate()
+
+  function logout(){
+    localStorage.clear()
+    setUser()
+    navigate("/")
+  }
+
   useEffect(() => {
-    Bank.getTransactions(user.token)
+    if(!user){
+      alert("Faça login")
+      navigate("/")
+    }else{
+      Bank.getTransactions(user.token)
       .then(res => {
         setTransactions(res.data)
         let soma = 0
@@ -21,21 +32,27 @@ export default function HomePage() {
           
           if(e.info === "entrance"){
             
-            soma = soma + e.value 
+            soma = soma + Number(e.value) 
           }else{
-            soma = soma - e.value
+            soma = soma - Number(e.value)
           }
+          console.log(soma)
         })
         const resultado = soma
         setValue(resultado)
+        
       })
-      .catch(err => console.log(err.response.data))
+      .catch(err => {
+       console.log(err.response.data)
+      })
+    }
+    
   } ,[])
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {user.name}</h1>
-        <BiExit />
+        <h1>Olá, {!user? '':`${user.name}`}</h1>
+        <BiExit onClick={logout}/>
       </Header>
 
       <TransactionsContainer>
@@ -47,7 +64,7 @@ export default function HomePage() {
                 <span>{t.time}</span>
                 <strong>{t.description}</strong>
               </div>
-              <Value color={t.info === "entrance"? 'positivo' : 'negativo'}>{(t.value).toFixed(2)}</Value>
+              <Value color={t.info === "entrance"? 'positivo' : 'negativo'}>{Number(t.value).toFixed(2)}</Value>
             </ListItemContainer>
           ))}
 
@@ -55,7 +72,7 @@ export default function HomePage() {
 
         <article>
           <strong>Saldo</strong>
-          <Value color={value >= 0? "positivo":"negativo"}>{Math.abs(value).toFixed(2)}</Value>
+          <Value color={value >= 0? "positivo":"negativo"}>{Math.abs(Number(value)).toFixed(2)}</Value>
         </article>
       </TransactionsContainer>
 

@@ -10,13 +10,14 @@ export default function TransactionsPage() {
   const [description, setDescription] = useState()
   const {user} = useContext(UserContext)
   const navigate = useNavigate()
-  const {params} = useParams()
+  const {tipo} = useParams()
+  console.log(tipo)
   function newTransaction(e){
     e.preventDefault()
     const dados = {
       value,
       description,
-      params
+      params: tipo
     }
     Bank.postTransactions(user.token, dados)
     .then(res => {
@@ -30,7 +31,7 @@ export default function TransactionsPage() {
       <form onSubmit={newTransaction}>
         <input 
         placeholder="Valor" 
-        type="text"
+        type="number"
         onChange={(e) => setValue(e.target.value)}/>
         <input 
         placeholder="Descrição" 

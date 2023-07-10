@@ -10,5 +10,6 @@ function signIn(body){
     const promisse = axios.post(`${URL_BASE}sign-in`, body)
     return promisse 
 }
+
 const Auth = {signIn, signUp}
 export default Auth
