@@ -51,8 +51,8 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {!user? '':`${user.name}`}</h1>
-        <BiExit onClick={logout}/>
+        <h1 data-test="user-name">Olá, {!user? '':`${user.name}`}</h1>
+        <BiExit data-test="logout" onClick={logout}/>
       </Header>
 
       <TransactionsContainer>
@@ -62,7 +62,7 @@ export default function HomePage() {
             <ListItemContainer>
               <div>
                 <span>{t.time}</span>
-                <strong>{t.description}</strong>
+                <strong data-test="registry-name">{t.description}</strong>
               </div>
               <Value color={t.info === "entrance"? 'positivo' : 'negativo'}>{Number(t.value).toFixed(2)}</Value>
             </ListItemContainer>

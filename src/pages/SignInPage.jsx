@@ -34,6 +34,7 @@ export default function SignInPage() {
       <form onSubmit={HeadLogin}>
         <MyWalletLogo />
         <input
+        data-test="email"
         placeholder="E-mail" 
         type="email" 
         required
@@ -41,6 +42,7 @@ export default function SignInPage() {
         onChange={(e) => setEmail(e.target.value)}
         />
         <input 
+        data-test="password"
         placeholder="Senha" 
         type="password" 
         autoComplete="new-password" 
@@ -49,7 +51,7 @@ export default function SignInPage() {
         onChange={(e) => setPassword(e.target.value)}
         />
         
-        <button>Entrar</button>
+        <button data-test="sign-in-submit" >Entrar</button>
       </form>
 
       <Link to={"/cadastro"}>
