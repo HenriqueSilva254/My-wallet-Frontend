@@ -82,7 +82,7 @@ export default function HomePage() {
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button>
-        <button data-test="new-expensive" onClick={() => {navigate('/nova-transacao/saida')} }>
+        <button data-test="new-expense" onClick={() => {navigate('/nova-transacao/saida')} }>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>

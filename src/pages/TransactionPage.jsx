@@ -41,6 +41,7 @@ export default function TransactionsPage() {
         placeholder="Valor" 
         type="number"
         min={0}
+        step="0.01"
         required
         onChange={(e) => setValue(e.target.value)}/>
         

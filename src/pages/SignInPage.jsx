@@ -26,7 +26,7 @@ export default function SignInPage() {
       }
       )
       .catch(err => {
-        if (err.response.status === 404) alert("senha inválida")
+        if (err.response.status === 401) alert("email ou senha inválida")
         else {
           console.log(err.response.data)
           alert("email ou senha invalidos")
