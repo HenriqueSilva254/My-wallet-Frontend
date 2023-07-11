@@ -7,28 +7,33 @@ import { UserContext } from "../contexts/userContext"
 
 
 export default function SignInPage() {
-  
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const navigate = useNavigate()
-  const {setUser} = useContext(UserContext)
+  const { setUser } = useContext(UserContext)
 
   // function para fazer login
-  function HeadLogin(e){
-  e.preventDefault()
-  const body = {email, password}
-  Auth.signIn(body)
-  .then(res => {
-    const {token, name} = res.data
-    localStorage.setItem("user",JSON.stringify({token, name}))
-    setUser(JSON.parse(localStorage.getItem("user")))
-    navigate("/home")
-  }
-  )
-  .catch(err => {
-    console.log(err.response.data)
-    alert("email ou senha invalidos")
-  })
+  function HeadLogin(e) {
+    e.preventDefault()
+    const body = { email, password }
+    Auth.signIn(body)
+      .then(res => {
+        const { token, name } = res.data
+        localStorage.setItem("user", JSON.stringify({ token, name }))
+        setUser(JSON.parse(localStorage.getItem("user")))
+        navigate("/home")
+      }
+      )
+      .catch(err => {
+        if (err.response.status === 404) alert("senha inválida")
+        else {
+          console.log(err.response.data)
+          alert("email ou senha invalidos")
+        }
+
+
+      })
   }
 
   // layout da page login
@@ -37,23 +42,23 @@ export default function SignInPage() {
       <form onSubmit={HeadLogin}>
         <MyWalletLogo />
         <input
-        data-test="email"
-        placeholder="E-mail" 
-        type="email" 
-        required
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
+          data-test="email"
+          placeholder="E-mail"
+          type="email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
-        <input 
-        data-test="password"
-        placeholder="Senha" 
-        type="password" 
-        autoComplete="new-password" 
-        required
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        <input
+          data-test="password"
+          placeholder="Senha"
+          type="password"
+          autoComplete="new-password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
-        
+
         <button data-test="sign-in-submit" >Entrar</button>
       </form>
 
@@ -71,4 +76,4 @@ const SingInContainer = styled.section`
   justify-content: center;
   align-items: center;
 `
- 
+

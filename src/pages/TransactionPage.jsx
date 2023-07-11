@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import styled from "styled-components"
 import { UserContext } from "../contexts/userContext"
 import { useNavigate, useParams } from "react-router-dom"
@@ -29,7 +29,7 @@ export default function TransactionsPage() {
     .then(res => {
       navigate('/home')
     })
-    .catch(err => console.log(err.response.data))
+    .catch(err => alert("preencha todos os campos"))
   }
   return (
     <TransactionsContainer>
@@ -40,12 +40,15 @@ export default function TransactionsPage() {
         data-test="registry-amount-input"
         placeholder="Valor" 
         type="number"
+        min={0}
+        required
         onChange={(e) => setValue(e.target.value)}/>
         
         <input 
         data-test="registry-name-input"
         placeholder="Descrição" 
         type="text"
+        required
         onChange={(e) => setDescription(e.target.value)} />
 
         <button data-test="registry-save">Salvar TRANSAÇÃO</button>
